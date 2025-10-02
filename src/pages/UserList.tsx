@@ -4,25 +4,33 @@ import type { User } from "../types/User";
 import { getUsers } from "../services/useService";
 import SearchBar from "../components/SearchBar";
 
-const UserList = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+interface UserListProps {
+  users: User[];
+  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+}
+
+const UserList: React.FC<UserListProps> = ({ users, setUsers }) => {
+  const [loading, setLoading] = useState(users.length === 0);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const data = await getUsers();
-        setUsers(data);
-      } catch (error) {
-        console.error("Failed to fetch users", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (users.length === 0) {
+      const fetchUsers = async () => {
+        try {
+          const data = await getUsers();
+          setUsers(data);
+        } catch (error) {
+          console.error("Failed to fetch users", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchUsers();
-  }, []);
+      fetchUsers();
+    } else {
+      setLoading(false);
+    }
+  }, [users, setUsers]);
 
   if (loading) {
     return <div>Loading...</div>;
