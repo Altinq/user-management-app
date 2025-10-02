@@ -1,12 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserList from "./pages/UserList";
+import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<UserList />} />
-      </Routes>
+      <Navbar />
+      <Layout>
+        <Routes>
+          <Route path="/" element={<UserList />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 }
