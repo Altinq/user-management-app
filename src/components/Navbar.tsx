@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { navItems } from "../types/navItems";
+import { navItems } from "../config/navItems";
 import burgerMenu from "../assets/burger-menu.png";
 import exitMenu from "../assets/exit.png";
 
