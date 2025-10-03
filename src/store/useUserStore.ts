@@ -5,24 +5,23 @@ import { getUsers } from "../services/useService";
 interface UserStore {
   users: User[];
   loading: boolean;
-  fetchUsers: () => Promise<void>;
+  fetchUsers: () => void;
   addUser: (user: User) => void;
 }
 
-export const useUserStore = create<UserStore>((set) => ({
+export const useUserStore = create<UserStore>((set, get) => ({
   users: [],
-  loading: true,
+  loading: false,
   fetchUsers: async () => {
+    set({ loading: true });
     try {
       const data = await getUsers();
-      set({ users: data, loading: false });
+      set({ users: data });
     } catch (err) {
-      console.error("Error fetching users:", err);
+      console.error(err);
+    } finally {
       set({ loading: false });
     }
   },
-  addUser: (user: User) =>
-    set((state) => ({
-      users: [...state.users, user],
-    })),
+  addUser: (user: User) => set({ users: [user, ...get().users] }),
 }));

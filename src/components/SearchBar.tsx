@@ -1,4 +1,5 @@
 import React from "react";
+import searchIcon from "../assets/search-icon.png";
 
 interface SearchBarProps {
   value: string;
@@ -36,7 +37,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         "
       />
       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-        🔍
+        <img src={searchIcon} alt="" />
       </div>
     </div>
   );

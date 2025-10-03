@@ -1,20 +1,28 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserList from "./pages/UserList";
-import UserDetails from "./pages/UserDetails";
-import AddUser from "./pages/AddUser";
+import { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Layout from "./components/Layout";
+import UserList from "./pages/UserList";
+import UserDetails from "./pages/UserDetails";
+import AddUserModal from "./components/AddUserModal";
 
 function App() {
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+
+  const openAddUserModal = () => setIsAddUserOpen(true);
+  const closeAddUserModal = () => setIsAddUserOpen(false);
+
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar onAddUserClick={openAddUserModal} />
       <Layout>
         <Routes>
-          <Route path="/" element={<UserList />} />
+          <Route path="/" element={<Navigate to="/users" replace />} />
+          <Route path="/users" element={<UserList />} />
           <Route path="/user/:id" element={<UserDetails />} />
-          <Route path="/add-user" element={<AddUser />} />
         </Routes>
+
+        <AddUserModal isOpen={isAddUserOpen} onClose={closeAddUserModal} />
       </Layout>
     </BrowserRouter>
   );
