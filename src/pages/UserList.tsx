@@ -1,19 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import UserCard from "../components/UserCard";
 import SearchBar from "../components/SearchBar";
-import type { User } from "../types/User";
+import AddUserModal from "../components/AddUserModal";
 import { useUserStore } from "../store/useUserStore";
+import downArrow from "../assets/down-arrow.png";
+import upArrow from "../assets/up-arrow.png";
+import type { User } from "../types/User";
 
 const UserList: React.FC = () => {
   const { users, loading, fetchUsers } = useUserStore();
+  const [showModal, setShowModal] = useState(false);
+
   const [searchText, setSearchText] = useState("");
   const [sortField, setSortField] = useState<"name" | "email">("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
-    if (users.length === 0) {
-      fetchUsers();
-    }
+    if (users.length === 0) fetchUsers();
   }, [users.length, fetchUsers]);
 
   if (loading) return <div>Loading users...</div>;
@@ -43,7 +46,6 @@ const UserList: React.FC = () => {
           onChange={setSearchText}
           placeholder="Search by name or email"
         />
-
         <label className="font-semibold">Sort by:</label>
         <select
           value={sortField}
@@ -53,14 +55,24 @@ const UserList: React.FC = () => {
           <option value="name">Name</option>
           <option value="email">Email</option>
         </select>
-
         <button
           onClick={() =>
             setSortDirection(sortDirection === "asc" ? "desc" : "asc")
           }
           className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
         >
-          {sortDirection === "asc" ? "↑" : "↓"}
+          <img
+            src={sortDirection === "asc" ? upArrow : downArrow}
+            alt={sortDirection === "asc" ? "Up Arrow" : "Down Arrow"}
+            className="w-4 h-4"
+          />
+        </button>
+
+        <button
+          onClick={() => setShowModal(true)}
+          className="ml-auto bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+        >
+          Add User
         </button>
       </div>
 
@@ -69,6 +81,8 @@ const UserList: React.FC = () => {
           <UserCard key={user.id} user={user} />
         ))}
       </div>
+
+      <AddUserModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { User } from "../types/User";
+import rightArrow from "../assets/right-arrow.png";
 
 interface UserCardProps {
   user: User;
@@ -18,8 +19,9 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
             <p className="text-sm text-gray-500">{user.company.name}</p>
           )}
         </div>
-        <span className="mt-4 inline-block text-blue-500 text-sm hover:underline">
-          View Details →
+        <span className="mt-4 flex justify-center items-center text-blue-500 text-sm hover:underline">
+          View Details
+          <img src={rightArrow} alt="" className="ml-1 w-4 h-4" />
         </span>
       </div>
     </Link>
