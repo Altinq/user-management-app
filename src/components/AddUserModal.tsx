@@ -104,7 +104,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ isOpen, onClose }) => {
             className="w-full p-2 border rounded"
           />
 
-          {/* Foldable Address */}
           <button
             type="button"
             onClick={() => setShowAddress(!showAddress)}
