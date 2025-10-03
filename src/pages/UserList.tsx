@@ -1,37 +1,20 @@
 import { useEffect, useState } from "react";
 import UserCard from "../components/UserCard";
-import type { User } from "../types/User";
-import { getUsers } from "../services/useService";
 import SearchBar from "../components/SearchBar";
+import type { User } from "../types/User";
+import { useUserStore } from "../store/useUserStore";
 
-interface UserListProps {
-  users: User[];
-  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
-}
-
-const UserList: React.FC<UserListProps> = ({ users, setUsers }) => {
-  const [loading, setLoading] = useState(users.length === 0);
+const UserList: React.FC = () => {
+  const { users, loading, fetchUsers } = useUserStore();
   const [searchText, setSearchText] = useState("");
   const [sortField, setSortField] = useState<"name" | "email">("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
     if (users.length === 0) {
-      const fetchData = async () => {
-        try {
-          const data = await getUsers();
-          setUsers(data);
-        } catch (err) {
-          console.error("Error fetching users:", err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchData();
-    } else {
-      setLoading(false);
+      fetchUsers();
     }
-  }, [users, setUsers]);
+  }, [users.length, fetchUsers]);
 
   if (loading) return <div>Loading users...</div>;
 

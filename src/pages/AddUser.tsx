@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../store/useUserStore";
 import type { User } from "../types/User";
 
-interface AddUserProps {
-  users: User[];
-  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
-}
-
-const AddUser: React.FC<AddUserProps> = ({ users, setUsers }) => {
+const AddUser: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -25,6 +21,9 @@ const AddUser: React.FC<AddUserProps> = ({ users, setUsers }) => {
   const [showCompany, setShowCompany] = useState(false);
 
   const navigate = useNavigate();
+
+  const users = useUserStore((state) => state.users);
+  const addUser = useUserStore((state) => state.addUser);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +51,7 @@ const AddUser: React.FC<AddUserProps> = ({ users, setUsers }) => {
           : undefined,
     };
 
-    setUsers([newUser, ...users]);
+    addUser(newUser);
     navigate("/");
   };
 
