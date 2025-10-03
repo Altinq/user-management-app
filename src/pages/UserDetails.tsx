@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useUserStore } from "../store/useUserStore";
 import type { User } from "../types/User";
 
-interface UserDetailsProps {
-  users: User[];
-}
-
-const UserDetails: React.FC<UserDetailsProps> = ({ users }) => {
+const UserDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const users = useUserStore((state) => state.users);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
