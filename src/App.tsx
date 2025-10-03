@@ -2,8 +2,8 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Layout from "./components/Layout";
-import UserList from "./pages/UserList";
-import UserDetails from "./pages/UserDetails";
+import UserList from "./pages/Users";
+import UserDetails from "./pages/User";
 import AddUserModal from "./components/AddUserModal";
 
 function App() {
